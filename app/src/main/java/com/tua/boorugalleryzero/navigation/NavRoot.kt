@@ -26,5 +26,4 @@ fun NavRoot(modifier: Modifier = Modifier) {
         }
     )
 
-
 }
