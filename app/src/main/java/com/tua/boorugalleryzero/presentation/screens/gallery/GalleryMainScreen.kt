@@ -48,12 +48,13 @@ fun GalleryMainScreen(
     val textFieldState = rememberTextFieldState()
 
     ScaffoldWithToolbar(
+        modifier = modifier,
         isLoading = false,
         onRefresh = {},
         toolbarContent = {
             BottomSearch(
                 state = textFieldState,
-                onSearch = {}
+                onSearch = onSearch
             )
         },
     ) {
@@ -65,7 +66,7 @@ fun GalleryMainScreen(
             items(100) {
 
                 Surface(
-                    onClick = {},
+                    onClick = onClick,
                     shape = MaterialTheme.shapes.small,
                     modifier = Modifier.aspectRatio(1f)
                 ) {
