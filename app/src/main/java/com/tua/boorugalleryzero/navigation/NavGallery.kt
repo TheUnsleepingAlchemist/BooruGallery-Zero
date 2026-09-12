@@ -18,7 +18,12 @@ fun NavGallery(modifier: Modifier = Modifier) {
         backStack = backStack,
         entryProvider = entryProvider {
             entry<RouteGallery.Main> {
-                GalleryMainScreen()
+                GalleryMainScreen(
+                    onClick = {
+                        backStack.add(RouteGallery.Preview)
+                    },
+                    onSearch = {}
+                )
             }
             entry<RouteGallery.Preview> {
                 GalleryPreviewScreen()
