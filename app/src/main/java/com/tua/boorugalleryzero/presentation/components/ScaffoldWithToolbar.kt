@@ -2,6 +2,7 @@ package com.tua.boorugalleryzero.presentation.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
@@ -30,6 +31,7 @@ fun ScaffoldWithToolbar(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
     onRefresh: () -> Unit,
+    toolbarContent: @Composable RowScope.() -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
 
@@ -39,9 +41,9 @@ fun ScaffoldWithToolbar(
         modifier = Modifier.fillMaxSize(),
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
-            ScaffoldToolbar {
-
-            }
+            ScaffoldToolbar(
+                content = toolbarContent
+            )
         }
     ) { sPadding ->
 
