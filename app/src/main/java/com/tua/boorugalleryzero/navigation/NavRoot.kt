@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.tua.boorugalleryzero.presentation.screens.home.HomeScreen
 
 @Composable
 fun NavRoot(modifier: Modifier = Modifier) {
@@ -15,7 +16,7 @@ fun NavRoot(modifier: Modifier = Modifier) {
         backStack = backStack,
         entryProvider = entryProvider {
             entry<RouteRoot.HomeScreen> {
-
+                HomeScreen()
             }
             entry<RouteRoot.GalleryScreen> {
                 NavGallery()

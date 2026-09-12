@@ -22,6 +22,7 @@ sealed interface RouteGallery : NavKey {
     @Serializable
     data object Details: RouteGallery, NavKey
 }
+
 @Serializable
 sealed interface RouteSettings : NavKey {
     @Serializable
