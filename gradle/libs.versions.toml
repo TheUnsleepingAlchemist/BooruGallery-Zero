@@ -13,6 +13,7 @@ nav3Core = "1.1.7"
 ktor = "3.5.2"
 kotlin-json = "1.11.0"
 coil = "3.6.2"
+paging_version = "3.5.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +49,9 @@ kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-s
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_version" }
+androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging_version" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging_version" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -75,4 +79,9 @@ ktor = [
 coil = [
     "coil",
     "coil-okhttp"
+]
+paging3 = [
+    "androidx-paging-runtime",
+    "androidx-paging-common",
+    "androidx-paging-compose"
 ]

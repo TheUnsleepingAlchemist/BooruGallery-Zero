@@ -57,5 +57,6 @@ dependencies {
     implementation(libs.bundles.nav3)
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.coil)
+    implementation(libs.bundles.paging3)
 
 }
