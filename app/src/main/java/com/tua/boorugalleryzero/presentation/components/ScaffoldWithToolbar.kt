@@ -1,18 +1,36 @@
 package com.tua.boorugalleryzero.presentation.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.tua.boorugalleryzero.model.ViewType
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -50,6 +68,84 @@ fun ScaffoldWithToolbar(
         ) {
 
             content()
+
+        }
+
+    }
+
+}
+
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalFoundationApi::class)
+@Composable
+fun ScaffoldWithToolbar(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean,
+    onRefresh: () -> Unit,
+    gridView: LazyGridScope.() -> Unit,
+    listView: LazyListScope.() -> Unit
+) {
+
+    val pullToRefreshState = rememberPullToRefreshState()
+
+    val gridState = rememberLazyGridState()
+    val listState = rememberLazyListState(
+        LazyLayoutCacheWindow(aheadFraction = 1f, behindFraction = 0.5f)
+    )
+
+    var viewType by rememberSaveable {
+        mutableStateOf(ViewType.Grid)
+    }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        floatingActionButtonPosition = FabPosition.Center,
+        floatingActionButton = {
+            ScaffoldToolbar {
+                TextIconButton(
+                    iconName = when(viewType) {
+                        ViewType.Grid -> "grid_view"
+                        ViewType.List -> "view_list"
+                    },
+                    onClick = {
+                        viewType = when(viewType) {
+                            ViewType.Grid -> ViewType.List
+                            ViewType.List -> ViewType.Grid
+                        }
+                    }
+                )
+            }
+        }
+    ) { sPadding ->
+
+        PullToRefreshBox(
+            isRefreshing = isLoading,
+            onRefresh = onRefresh,
+            modifier = Modifier.fillMaxSize().padding(sPadding),
+            state = pullToRefreshState,
+            indicator = {
+                PullToRefreshDefaults.LoadingIndicator(
+                    state = pullToRefreshState,
+                    isRefreshing = isLoading,
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
+            }
+        ) {
+
+            when(viewType) {
+                ViewType.Grid -> {
+                    BasicGridView(
+                        state = gridState,
+                        content = gridView
+                    )
+                }
+                ViewType.List -> {
+                    BasicListView(
+                        state = listState,
+                        content = listView
+                    )
+                }
+            }
 
         }
 
