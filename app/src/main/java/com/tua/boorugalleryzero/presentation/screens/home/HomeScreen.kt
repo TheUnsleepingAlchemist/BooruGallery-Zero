@@ -16,7 +16,9 @@ import com.tua.boorugalleryzero.presentation.components.TextIconButton
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onAddClick: () -> Unit,
+    onSettingsClick: () -> Unit,
 ) {
     val listColors = ListItemDefaults.segmentedColors(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
@@ -28,11 +30,11 @@ fun HomeScreen(
         toolbarContent = {
             TextIconButton(
                 "add",
-                {}
+                onAddClick
             )
             TextIconButton(
                 "settings",
-                {}
+                onSettingsClick
             )
         },
         gridView = {

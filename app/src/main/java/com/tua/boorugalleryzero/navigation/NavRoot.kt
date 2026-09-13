@@ -16,9 +16,15 @@ fun NavRoot(modifier: Modifier = Modifier) {
         backStack = backStack,
         entryProvider = entryProvider {
             entry<RouteRoot.HomeScreen> {
-                HomeScreen(onClick = {
-                    backStack.add(RouteRoot.GalleryScreen)
-                })
+                HomeScreen(
+                    onClick = {
+                        backStack.add(RouteRoot.GalleryScreen)
+                    },
+                    onAddClick = {},
+                    onSettingsClick = {
+                        backStack.add(RouteRoot.SettingsScreen)
+                    }
+                )
             }
             entry<RouteRoot.GalleryScreen> {
                 NavGallery()
