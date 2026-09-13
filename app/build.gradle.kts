@@ -60,4 +60,6 @@ dependencies {
     implementation(libs.bundles.paging3)
     implementation(libs.bundles.media3)
 
+    implementation(libs.datastore)
+
 }
