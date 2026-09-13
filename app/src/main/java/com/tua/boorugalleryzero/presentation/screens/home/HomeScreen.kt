@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import com.tua.boorugalleryzero.presentation.components.HomeItemGrid
 import com.tua.boorugalleryzero.presentation.components.HomeItemList
 import com.tua.boorugalleryzero.presentation.components.ScaffoldWithToolbar
+import com.tua.boorugalleryzero.presentation.components.TextIconButton
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -24,6 +25,16 @@ fun HomeScreen(
     ScaffoldWithToolbar(
         isLoading = false,
         onRefresh = {},
+        toolbarContent = {
+            TextIconButton(
+                "add",
+                {}
+            )
+            TextIconButton(
+                "settings",
+                {}
+            )
+        },
         gridView = {
             items(100) {
                 HomeItemGrid(onClick,it.toString(), modifier = Modifier.aspectRatio(1f))

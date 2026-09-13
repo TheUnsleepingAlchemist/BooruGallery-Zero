@@ -41,7 +41,19 @@ fun GalleryPreviewScreen(
         onRefresh = {},
         toolbarContent = {
             TextIconButton(
+                "favorite",
+                {}
+            )
+            TextIconButton(
+                "link",
+                {}
+            )
+            TextIconButton(
                 "download",
+                {}
+            )
+            TextIconButton(
+                "info",
                 {}
             )
         }

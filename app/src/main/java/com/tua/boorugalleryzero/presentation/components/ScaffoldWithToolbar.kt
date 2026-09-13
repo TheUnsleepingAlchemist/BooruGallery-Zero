@@ -76,6 +76,7 @@ fun ScaffoldWithToolbar(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
     onRefresh: () -> Unit,
+    toolbarContent: @Composable RowScope.() -> Unit = {},
     gridView: LazyGridScope.() -> Unit,
     listView: LazyListScope.() -> Unit
 ) {
@@ -108,6 +109,7 @@ fun ScaffoldWithToolbar(
                         }
                     }
                 )
+                toolbarContent()
             }
         }
     ) { sPadding ->
