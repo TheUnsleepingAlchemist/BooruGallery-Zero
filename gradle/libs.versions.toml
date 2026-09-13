@@ -48,6 +48,7 @@ kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-s
 
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
+coil-gif = { group = "io.coil-kt.coil3", name = "coil-gif", version.ref = "coil" }
 
 androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_version" }
 androidx-paging-common = { group = "androidx.paging", name = "paging-common", version.ref = "paging_version" }
@@ -78,7 +79,8 @@ ktor = [
 ]
 coil = [
     "coil",
-    "coil-okhttp"
+    "coil-okhttp",
+    "coil-gif"
 ]
 paging3 = [
     "androidx-paging-runtime",
