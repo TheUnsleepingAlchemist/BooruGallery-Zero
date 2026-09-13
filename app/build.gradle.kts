@@ -58,5 +58,6 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.bundles.coil)
     implementation(libs.bundles.paging3)
+    implementation(libs.bundles.media3)
 
 }
