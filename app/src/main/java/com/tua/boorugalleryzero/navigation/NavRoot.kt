@@ -10,6 +10,7 @@ import androidx.navigation3.ui.NavDisplay
 import coil3.ImageLoader
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
+import coil3.network.NetworkHeaders
 import com.tua.boorugalleryzero.presentation.screens.home.HomeScreen
 
 @Composable
@@ -17,15 +18,19 @@ fun NavRoot(modifier: Modifier = Modifier) {
 
     val backStack = rememberNavBackStack(RouteRoot.HomeScreen)
 
-    val gifLoader = ImageLoader.Builder(LocalContext.current.applicationContext)
-        .components {
-            if (SDK_INT >= 28) {
-                add(AnimatedImageDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
+    val context = LocalContext.current.applicationContext
+
+    val gifLoader = {
+        ImageLoader.Builder(context)
+            .components {
+                if (SDK_INT >= 28) {
+                    add(AnimatedImageDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
             }
-        }
-        .build()
+            .build()
+    }
 
     NavDisplay(
         backStack = backStack,

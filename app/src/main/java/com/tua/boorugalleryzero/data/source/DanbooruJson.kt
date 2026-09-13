@@ -79,10 +79,10 @@ class DanbooruJson(
                     RemoteRating.Explicit -> Rating.Explicit
                 },
                 fileType = when(fileExt) {
-                    "jpg", "png" -> FileType.Image
+                    "jpg", "png", "webp" -> FileType.Image
                     "gif" -> FileType.Gif
                     "webm", "mp4" -> FileType.Video
-                    else -> FileType.Unknown
+                    else -> FileType.Unsupported
                 }
             )
         }

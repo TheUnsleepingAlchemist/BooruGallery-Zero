@@ -1,5 +1,11 @@
 package com.tua.boorugalleryzero.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.RowScope
@@ -12,6 +18,7 @@ import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
@@ -23,6 +30,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.IntOffset
 import com.tua.boorugalleryzero.presentation.model.ViewType
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -31,6 +39,7 @@ fun ScaffoldWithToolbar(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
     onRefresh: () -> Unit,
+    isToolbarVisible: Boolean = true,
     toolbarContent: @Composable RowScope.() -> Unit = {},
     content: @Composable BoxScope.() -> Unit = {}
 ) {
@@ -41,9 +50,15 @@ fun ScaffoldWithToolbar(
         modifier = Modifier.fillMaxSize(),
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
-            ScaffoldToolbar(
-                content = toolbarContent
-            )
+            AnimatedVisibility(
+                isToolbarVisible,
+                enter = slideInVertically { 0 },
+                exit = slideOutVertically { 150 }
+            ) {
+                ScaffoldToolbar(
+                    content = toolbarContent
+                )
+            }
         }
     ) { sPadding ->
 

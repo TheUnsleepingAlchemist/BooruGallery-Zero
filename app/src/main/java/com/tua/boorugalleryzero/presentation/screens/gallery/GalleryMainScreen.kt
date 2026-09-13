@@ -25,6 +25,7 @@ import com.tua.boorugalleryzero.viewmodel.GalleryViewModel
 fun GalleryMainScreen(
     viewModel: GalleryViewModel,
     modifier: Modifier = Modifier,
+    headers: () -> NetworkHeaders,
     onClick: () -> Unit,
     onSearch: () -> Unit
 ) {
@@ -37,10 +38,6 @@ fun GalleryMainScreen(
 
     val postPagingItems = viewModel.postPagingSource.collectAsLazyPagingItems()
 
-    val headers = NetworkHeaders
-        .Builder()
-        .set("referer", viewModel.client.referer)
-        .build()
 
     LaunchedEffect(initialIndex) {
         gridState.scrollToItem(initialIndex)
@@ -72,7 +69,7 @@ fun GalleryMainScreen(
                     val model = ImageRequest
                         .Builder(LocalContext.current)
                         .data(post.previewUrl)
-                        .httpHeaders(headers)
+                        .httpHeaders(headers())
                         .build()
 
                     GalleryItem(

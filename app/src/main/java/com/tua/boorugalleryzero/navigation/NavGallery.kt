@@ -1,12 +1,19 @@
 package com.tua.boorugalleryzero.navigation
 
+import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import coil3.ImageLoader
+import coil3.network.NetworkHeaders
 import com.tua.boorugalleryzero.data.source.DanbooruJson
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryDetailsScreen
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryMainScreen
@@ -21,11 +28,13 @@ import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+@OptIn(UnstableApi::class)
 @Composable
 fun NavGallery(
     modifier: Modifier = Modifier,
-    gifLoader: ImageLoader
+    gifLoader: () -> ImageLoader
 ) {
+    val context = LocalContext.current.applicationContext
 
     val backStack = rememberNavBackStack(RouteGallery.Main)
 
@@ -46,12 +55,30 @@ fun NavGallery(
 
     val galleryViewModel = viewModel { GalleryViewModel(client) }
 
+    val headers = {
+        NetworkHeaders
+            .Builder()
+            .set("referer", client.referer)
+            .build()
+    }
+
+    val mediaSourceFactory = {
+        val httpFactory = DefaultHttpDataSource.Factory()
+            .setDefaultRequestProperties(
+                mapOf("Referer" to client.referer)
+            )
+
+        val dataSourceFactory = DefaultDataSource.Factory(context, httpFactory)
+        ProgressiveMediaSource.Factory(dataSourceFactory)
+    }
+
     NavDisplay(
         backStack = backStack,
         entryProvider = entryProvider {
             entry<RouteGallery.Main> {
                 GalleryMainScreen(
                     viewModel = galleryViewModel,
+                    headers = headers,
                     onClick = {
                         backStack.add(RouteGallery.Preview)
                     },
@@ -61,7 +88,9 @@ fun NavGallery(
             entry<RouteGallery.Preview> {
                 GalleryPreviewScreen(
                     viewModel = galleryViewModel,
-                    gifLoader = gifLoader
+                    headers = headers,
+                    gifLoader = gifLoader,
+                    mediaSourceFactory = mediaSourceFactory
                 )
             }
             entry<RouteGallery.Details> {
