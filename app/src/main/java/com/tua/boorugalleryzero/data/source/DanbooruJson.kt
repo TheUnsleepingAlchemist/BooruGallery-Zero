@@ -16,8 +16,9 @@ class DanbooruJson(
     override val clientId = Clients.DanbooruJson
     override val baseUrl = "https://testbooru.donmai.us/posts.json"
     override val referer = "https://danbooru.donmai.us"
+    override val initPage = 1
 
-    override suspend fun fetchPosts(): Result<List<Post>> {
+    override suspend fun fetchPosts(page:Int): Result<List<Post>> {
 
         return runCatching {
             httpClient.get(baseUrl) {
@@ -25,7 +26,7 @@ class DanbooruJson(
                     encodedParameters.apply {
                         append("limit","20")
                         append("tags", "")
-                        append("page","0")
+                        append("page",page.toString())
                     }
                 }
             }.body<List<RemotePost>>().map { it.toDomainPost() }

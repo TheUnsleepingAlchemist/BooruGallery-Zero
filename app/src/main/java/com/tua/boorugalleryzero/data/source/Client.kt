@@ -8,7 +8,8 @@ interface Client {
     val clientId: Clients
     val baseUrl: String
     val referer: String
+    val initPage: Int
 
-    suspend fun fetchPosts() : Result<List<Post>>
+    suspend fun fetchPosts(page:Int = initPage) : Result<List<Post>>
 
 }
