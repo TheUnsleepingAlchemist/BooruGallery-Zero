@@ -5,8 +5,13 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFlexibleTopAppBar
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import com.tua.boorugalleryzero.presentation.components.HomeItemGrid
 import com.tua.boorugalleryzero.presentation.components.HomeItemList
 import com.tua.boorugalleryzero.presentation.components.ScaffoldWithToolbar
@@ -24,8 +29,19 @@ fun HomeScreen(
         containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
     )
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     ScaffoldWithToolbar(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         isLoading = false,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Home")
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
         onRefresh = {},
         toolbarContent = {
             TextIconButton(

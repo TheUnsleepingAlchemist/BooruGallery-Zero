@@ -10,12 +10,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import com.tua.boorugalleryzero.presentation.components.SettingsListItem
+import com.tua.boorugalleryzero.presentation.components.TextIconButton
 
 @Composable
 fun SettingsMainScreen(modifier: Modifier = Modifier) {
@@ -24,17 +26,16 @@ fun SettingsMainScreen(modifier: Modifier = Modifier) {
         containerColor = MaterialTheme.colorScheme.surfaceContainer
     )
 
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
-
-
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
         topBar = {
-            MediumFlexibleTopAppBar(
+            TopAppBar(
                 title = {
                     Text("Settings")
                 },
-                scrollBehavior = scrollBehavior
+                navigationIcon = {
+                    TextIconButton("arrow_back",{})
+                }
             )
         }
     ) { sPadding ->

@@ -1,9 +1,11 @@
 package com.tua.boorugalleryzero.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.tua.boorugalleryzero.data.paging.PostPagingSource
 import com.tua.boorugalleryzero.data.source.Client
 import com.tua.boorugalleryzero.domain.Post
@@ -24,7 +26,7 @@ class GalleryViewModel(
                 client = client
             )
         }
-    ).flow
+    ).flow.cachedIn(viewModelScope)
 
     private val _initialIndex = MutableStateFlow<Int>(0)
     val initialIndex = _initialIndex.asStateFlow()

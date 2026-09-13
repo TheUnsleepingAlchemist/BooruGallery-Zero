@@ -15,5 +15,6 @@ data class Post(
     val width: Int,
     val height: Int,
     val parentId: Int?,
-    val rating: Rating
+    val rating: Rating,
+    val fileType: FileType
 )

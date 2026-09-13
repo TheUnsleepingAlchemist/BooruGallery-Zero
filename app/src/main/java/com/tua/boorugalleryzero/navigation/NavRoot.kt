@@ -42,7 +42,9 @@ fun NavRoot(modifier: Modifier = Modifier) {
                 )
             }
             entry<RouteRoot.GalleryScreen> {
-                NavGallery()
+                NavGallery(
+                    gifLoader = gifLoader
+                )
             }
             entry<RouteRoot.SettingsScreen> {
                 NavSettings()

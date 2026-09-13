@@ -75,6 +75,7 @@ fun ScaffoldWithToolbar(
 fun ScaffoldWithToolbar(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
+    topBar: @Composable () -> Unit = {},
     onRefresh: () -> Unit,
     toolbarContent: @Composable RowScope.() -> Unit = {},
     gridView: LazyGridScope.() -> Unit,
@@ -93,7 +94,8 @@ fun ScaffoldWithToolbar(
     }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
+        topBar = topBar,
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             ScaffoldToolbar {

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import coil3.ImageLoader
 import com.tua.boorugalleryzero.data.source.DanbooruJson
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryDetailsScreen
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryMainScreen
@@ -21,7 +22,10 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
 @Composable
-fun NavGallery(modifier: Modifier = Modifier) {
+fun NavGallery(
+    modifier: Modifier = Modifier,
+    gifLoader: ImageLoader
+) {
 
     val backStack = rememberNavBackStack(RouteGallery.Main)
 
@@ -56,7 +60,8 @@ fun NavGallery(modifier: Modifier = Modifier) {
             }
             entry<RouteGallery.Preview> {
                 GalleryPreviewScreen(
-                    viewModel = galleryViewModel
+                    viewModel = galleryViewModel,
+                    gifLoader = gifLoader
                 )
             }
             entry<RouteGallery.Details> {

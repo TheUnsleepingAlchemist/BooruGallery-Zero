@@ -11,7 +11,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil3.ImageLoader
 import coil3.compose.AsyncImage
+import com.tua.boorugalleryzero.domain.FileType
 import com.tua.boorugalleryzero.presentation.components.ScaffoldWithToolbar
 import com.tua.boorugalleryzero.presentation.components.TextIconButton
 import com.tua.boorugalleryzero.viewmodel.GalleryViewModel
@@ -19,6 +21,7 @@ import com.tua.boorugalleryzero.viewmodel.GalleryViewModel
 @Composable
 fun GalleryPreviewScreen(
     viewModel: GalleryViewModel,
+    gifLoader: ImageLoader,
     modifier: Modifier = Modifier
 ) {
 
@@ -60,15 +63,35 @@ fun GalleryPreviewScreen(
     ) {
 
         HorizontalPager(
-            state = pagerState
+            state = pagerState,
+            beyondViewportPageCount = 1
         ) { page ->
-            AsyncImage(
-                postPagingItems[page]!!.fileUrl,
-//                "https://placehold.co/450x800.png",
-                null,
-                modifier = Modifier
-                    .fillMaxSize()
-            )
+
+            val post = postPagingItems[page]!!
+
+            when(post.fileType) {
+                FileType.Image -> {
+                    AsyncImage(
+                        postPagingItems[page]!!.fileUrl,
+                        null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                FileType.Gif -> {
+                    AsyncImage(
+                        postPagingItems[page]!!.fileUrl,
+                        null,
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        imageLoader = gifLoader
+                    )
+                }
+                FileType.Video -> {}
+                FileType.Unknown -> {}
+            }
+
+
         }
 
     }

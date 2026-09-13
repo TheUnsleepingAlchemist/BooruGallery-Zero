@@ -1,5 +1,6 @@
 package com.tua.boorugalleryzero.data.source
 
+import com.tua.boorugalleryzero.domain.FileType
 import com.tua.boorugalleryzero.domain.Post
 import com.tua.boorugalleryzero.domain.Rating
 import io.ktor.client.HttpClient
@@ -76,6 +77,12 @@ class DanbooruJson(
                     RemoteRating.Sensitive -> Rating.Sensitive
                     RemoteRating.Questionable -> Rating.Questionable
                     RemoteRating.Explicit -> Rating.Explicit
+                },
+                fileType = when(fileExt) {
+                    "jpg", "png" -> FileType.Image
+                    "gif" -> FileType.Gif
+                    "webm", "mp4" -> FileType.Video
+                    else -> FileType.Unknown
                 }
             )
         }
