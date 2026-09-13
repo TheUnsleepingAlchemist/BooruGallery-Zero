@@ -8,6 +8,8 @@ import com.tua.boorugalleryzero.data.paging.PostPagingSource
 import com.tua.boorugalleryzero.data.source.Client
 import com.tua.boorugalleryzero.domain.Post
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 class GalleryViewModel(
     val client: Client
@@ -23,5 +25,12 @@ class GalleryViewModel(
             )
         }
     ).flow
+
+    private val _initialIndex = MutableStateFlow<Int>(0)
+    val initialIndex = _initialIndex.asStateFlow()
+
+    fun setInitialIndex(value: Int) {
+        _initialIndex.value = value
+    }
 
 }

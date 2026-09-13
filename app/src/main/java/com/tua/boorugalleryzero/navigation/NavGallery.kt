@@ -55,7 +55,9 @@ fun NavGallery(modifier: Modifier = Modifier) {
                 )
             }
             entry<RouteGallery.Preview> {
-                GalleryPreviewScreen()
+                GalleryPreviewScreen(
+                    viewModel = galleryViewModel
+                )
             }
             entry<RouteGallery.Details> {
                 GalleryDetailsScreen()

@@ -20,6 +20,7 @@ import coil3.network.httpHeaders
 import coil3.request.ImageRequest
 import com.tua.boorugalleryzero.presentation.components.BasicGridView
 import com.tua.boorugalleryzero.presentation.components.BottomSearch
+import com.tua.boorugalleryzero.presentation.components.GalleryItem
 import com.tua.boorugalleryzero.presentation.components.ScaffoldWithToolbar
 import com.tua.boorugalleryzero.viewmodel.GalleryViewModel
 
@@ -71,21 +72,13 @@ fun GalleryMainScreen(
                         .httpHeaders(headers)
                         .build()
 
-                    Surface(
-                        onClick = onClick,
-                        shape = MaterialTheme.shapes.small,
-                        modifier = Modifier.aspectRatio(1f)
-                    ) {
-                        Box() {
-                            AsyncImage(
-                                model,
-                                null,
-                                modifier = Modifier
-                                    .fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
+                    GalleryItem(
+                        imageModel = model,
+                        onClick = {
+                            viewModel.setInitialIndex(index)
+                            onClick()
                         }
-                    }
+                    )
 
                 }
 
