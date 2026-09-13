@@ -4,7 +4,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -23,6 +26,14 @@ fun GalleryPreviewScreen(
     val postPagingItems = viewModel.postPagingSource.collectAsLazyPagingItems()
 
     val pagerState = rememberPagerState(initialIndex) { postPagingItems.itemCount }
+
+    val settledPage by remember {
+        derivedStateOf { pagerState.settledPage }
+    }
+
+    LaunchedEffect(settledPage) {
+        viewModel.setInitialIndex(settledPage)
+    }
 
     ScaffoldWithToolbar(
         modifier = modifier,

@@ -8,9 +8,11 @@ import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
@@ -32,7 +34,9 @@ fun GalleryMainScreen(
     onSearch: () -> Unit
 ) {
 
-    val gridState = rememberLazyGridState()
+    val initialIndex by viewModel.initialIndex.collectAsStateWithLifecycle()
+
+    val gridState = rememberLazyGridState(initialFirstVisibleItemIndex = initialIndex)
 
     val textFieldState = rememberTextFieldState()
 
