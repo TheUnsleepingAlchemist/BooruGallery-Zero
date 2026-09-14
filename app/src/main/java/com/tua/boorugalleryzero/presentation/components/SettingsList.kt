@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 fun SettingsList(
     modifier: Modifier = Modifier,
     label: String,
-    onClick: () -> Unit,
+    onBackClick: () -> Unit,
     content: LazyListScope.() -> Unit
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -31,7 +31,7 @@ fun SettingsList(
                 navigationIcon = {
                     TextIconButton(
                         iconName = "arrow_back",
-                        onClick = onClick
+                        onClick = onBackClick
                     )
                 },
                 title = {

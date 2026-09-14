@@ -1,7 +1,6 @@
 package com.tua.boorugalleryzero.data.persistent
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -30,6 +29,7 @@ data class DataStoreItem<T>(
 
 object PrefKeys {
 
+    val ENABLE_DEVTOOLS = DataStoreItem("Enable Devtools",booleanPreferencesKey("devtools"),false)
     val DEMO_MODE = DataStoreItem("Demo mode",booleanPreferencesKey("demo_mode"),true)
     val VIEW_TYPE = DataStoreItem("Change view type",booleanPreferencesKey("view_type"),true)
     val HOME_SIZE_LANDSCAPE = DataStoreItem("Home grid size in landscape",intPreferencesKey("home_grid_size_landscape"),6)
@@ -46,39 +46,6 @@ object PrefKeys {
 
 class AppDataStore(val context: Context) {
 
-    private fun <T> pref(item: DataStoreItem<T>): Flow<T> =
-        context.dataStore.data.map { it[item.key] ?: item.defaultValue }
-
-    private fun <T> set(item: DataStoreItem<T>, value: T, scope: CoroutineScope) =
-        scope.launch {
-            context.dataStore.edit { it[item.key] = value }
-        }
-
-    val demoMode = pref(PrefKeys.DEMO_MODE)
-    val viewType = pref(PrefKeys.VIEW_TYPE)
-    val homeSizeLandscape = pref(PrefKeys.HOME_SIZE_LANDSCAPE)
-    val homeSizePortrait = pref(PrefKeys.HOME_SIZE_PORTRAIT)
-    val gallerySizeLandscape = pref(PrefKeys.GALLERY_SIZE_LANDSCAPE)
-    val gallerySizePortrait = pref(PrefKeys.GALLERY_SIZE_PORTRAIT)
-    val autoplayVideo = pref(PrefKeys.AUTOPLAY_VIDEO)
-    val loopVideo = pref(PrefKeys.LOOP_VIDEO)
-    val muteVideo = pref(PrefKeys.MUTE_VIDEO)
-    val fetchQuantity = pref(PrefKeys.FETCH_QUANTITY)
-    val prefetchRange = pref(PrefKeys.PREFETCH_RANGE)
-
-
-    fun setDemoMode(value: Boolean, scope: CoroutineScope) = set(PrefKeys.DEMO_MODE,value,scope)
-    fun setViewType(value: Boolean, scope: CoroutineScope) = set(PrefKeys.VIEW_TYPE,value,scope)
-    fun setHomeSizeLandscape(value: Int, scope: CoroutineScope) = set(PrefKeys.HOME_SIZE_LANDSCAPE,value,scope)
-    fun setHomeSizePortrait(value: Int, scope: CoroutineScope) = set(PrefKeys.HOME_SIZE_PORTRAIT,value,scope)
-    fun setGallerySizeLandscape(value: Int, scope: CoroutineScope) = set(PrefKeys.GALLERY_SIZE_LANDSCAPE,value,scope)
-    fun setGallerySizePortrait(value: Int, scope: CoroutineScope) = set(PrefKeys.GALLERY_SIZE_PORTRAIT,value,scope)
-    fun setAutoplayVideo(value: Boolean, scope: CoroutineScope) = set(PrefKeys.AUTOPLAY_VIDEO,value,scope)
-    fun setLoopVideo(value: Boolean, scope: CoroutineScope) = set(PrefKeys.LOOP_VIDEO,value,scope)
-    fun setMuteVideo(value: Boolean, scope: CoroutineScope) = set(PrefKeys.MUTE_VIDEO,value,scope)
-    fun setFetchQuantity(value: Int, scope: CoroutineScope) = set(PrefKeys.FETCH_QUANTITY,value,scope)
-    fun setPrefetchRange(value: Float, scope: CoroutineScope) = set(PrefKeys.PREFETCH_RANGE,value,scope)
-
     fun getHomeSetting(): Flow<HomeSettings> = context.dataStore.data.map {
         HomeSettings(
             viewType = if (it[PrefKeys.VIEW_TYPE.key] ?: PrefKeys.VIEW_TYPE.defaultValue) ViewType.Grid else ViewType.List,
@@ -94,8 +61,8 @@ class AppDataStore(val context: Context) {
         GallerySettings(
             demoMode = it[PrefKeys.DEMO_MODE.key] ?: PrefKeys.DEMO_MODE.defaultValue,
             gridSize = GridSize(
-                portrait = it[PrefKeys.HOME_SIZE_PORTRAIT.key]?: PrefKeys.HOME_SIZE_PORTRAIT.defaultValue,
-                landscape = it[PrefKeys.HOME_SIZE_LANDSCAPE.key]?: PrefKeys.HOME_SIZE_LANDSCAPE.defaultValue,
+                portrait = it[PrefKeys.GALLERY_SIZE_PORTRAIT.key]?: PrefKeys.GALLERY_SIZE_PORTRAIT.defaultValue,
+                landscape = it[PrefKeys.GALLERY_SIZE_LANDSCAPE.key]?: PrefKeys.GALLERY_SIZE_LANDSCAPE.defaultValue,
             ),
             fetchQuantity = it[PrefKeys.FETCH_QUANTITY.key] ?: PrefKeys.FETCH_QUANTITY.defaultValue,
             prefetchRange = it[PrefKeys.PREFETCH_RANGE.key] ?: PrefKeys.PREFETCH_RANGE.defaultValue,
@@ -105,6 +72,12 @@ class AppDataStore(val context: Context) {
         )
     }
 
+    fun getDevSetting(): Flow<DevSettings> = context.dataStore.data.map {
+        DevSettings(
+            devtools = it[PrefKeys.ENABLE_DEVTOOLS.key] ?: PrefKeys.ENABLE_DEVTOOLS.defaultValue,
+            demoMode = it[PrefKeys.DEMO_MODE.key] ?: PrefKeys.DEMO_MODE.defaultValue,
+        )
+    }
 
 }
 
@@ -124,6 +97,10 @@ data class GallerySettings(
     val muteVideo: Boolean,
 )
 
+data class DevSettings(
+    val devtools: Boolean,
+    val demoMode: Boolean,
+)
 
 val defaultHomeSettings = HomeSettings(
     viewType = ViewType.Grid,
@@ -139,4 +116,9 @@ val defaultGallerySettings = GallerySettings(
     autoplayVideo = PrefKeys.AUTOPLAY_VIDEO.defaultValue,
     loopVideo = PrefKeys.LOOP_VIDEO.defaultValue,
     muteVideo = PrefKeys.MUTE_VIDEO.defaultValue,
+)
+
+val defaultDevSettings = DevSettings(
+    devtools = false,
+    demoMode = true
 )

@@ -9,23 +9,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.FilledTonalIconButton
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.retain.RetainedEffect
 import androidx.compose.runtime.retain.retain
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.MediaSource
-import androidx.media3.exoplayer.source.MediaSourceFactory
 import androidx.media3.exoplayer.upstream.DefaultAllocator
 import androidx.media3.ui.compose.ContentFrame
 import androidx.media3.ui.compose.buttons.MuteButton
@@ -100,7 +96,6 @@ fun PreviewVideo(
         )
         PlayerControls(
             player = player,
-            onClick = onClick,
             modifier = modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
@@ -114,7 +109,6 @@ fun PreviewVideo(
 @Composable
 private fun PlayerControls(
     player: ExoPlayer,
-    onClick: () -> Unit,
     modifier: Modifier
 ) {
 
@@ -130,27 +124,6 @@ private fun PlayerControls(
             PositionAndDurationText(
                 player
             )
-
-//            Row(
-//                horizontalArrangement = Arrangement.spacedBy(8.dp)
-//            ) {
-//                TextIconButton(
-//                    "favorite",
-//                    {}
-//                )
-//                TextIconButton(
-//                    "link",
-//                    {}
-//                )
-//                TextIconButton(
-//                    "download",
-//                    {}
-//                )
-//                TextIconButton(
-//                    "info",
-//                    {}
-//                )
-//            }
 
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)

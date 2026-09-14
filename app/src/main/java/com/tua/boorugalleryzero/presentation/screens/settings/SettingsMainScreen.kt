@@ -21,14 +21,16 @@ import com.tua.boorugalleryzero.presentation.components.TextIconButton
 @Composable
 fun SettingsMainScreen(
     modifier: Modifier = Modifier,
-    onClick: (NavKey) -> Unit
+    devtools: Boolean,
+    onBackClick: () -> Unit,
+    onItemClick: (NavKey) -> Unit
 ) {
 
     val allSections = listOf(
-        SettingSection("Home","View type, Grid size","home", false,RouteSettings.Main),
-        SettingSection("Gallery","Demo mode, Autoplay","gallery_thumbnail", false,RouteSettings.Main),
-        SettingSection("Experimental","Demo mode, Autoplay","experiment", true,RouteSettings.Main),
-        SettingSection("About","Version 0.0.1","info", false,RouteSettings.Main),
+        SettingSection("Home","View type, Grid size","home", false,RouteSettings.Home),
+        SettingSection("Gallery","Demo mode, Autoplay","gallery_thumbnail", false,RouteSettings.Gallery),
+        SettingSection("Experimental","Demo mode, Autoplay","experiment", !devtools,RouteSettings.Dev),
+        SettingSection("About","Version 0.0.1","info", false,RouteSettings.About),
     )
 
     val sections = allSections.filter { !it.hidden }
@@ -45,7 +47,7 @@ fun SettingsMainScreen(
                     Text("Settings")
                 },
                 navigationIcon = {
-                    TextIconButton("arrow_back",{})
+                    TextIconButton("arrow_back",onBackClick)
                 }
             )
         }
@@ -66,7 +68,7 @@ fun SettingsMainScreen(
 
                 SettingsItem(
                     onClick = {
-                        onClick(item.destination)
+                        onItemClick(item.destination)
                     },
                     shapes = shapes,
                     colors = colors,

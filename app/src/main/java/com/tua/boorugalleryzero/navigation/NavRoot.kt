@@ -12,7 +12,6 @@ import androidx.navigation3.ui.NavDisplay
 import coil3.ImageLoader
 import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
-import coil3.network.NetworkHeaders
 import com.tua.boorugalleryzero.data.persistent.HomeSettings
 import com.tua.boorugalleryzero.data.persistent.defaultGallerySettings
 import com.tua.boorugalleryzero.presentation.model.ViewType
@@ -74,7 +73,12 @@ fun NavRoot(
                 )
             }
             entry<RouteRoot.SettingsScreen> {
-                NavSettings()
+                NavSettings(
+                    viewModel = viewModel,
+                    onBackClick = {
+                        backStack.removeLastOrNull()
+                    }
+                )
             }
         }
     )
