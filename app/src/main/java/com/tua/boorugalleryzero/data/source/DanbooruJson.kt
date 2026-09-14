@@ -12,11 +12,13 @@ import kotlinx.serialization.Serializable
 
 class DanbooruJson(
     private val httpClient: HttpClient,
+    private val enableProdApi: Boolean
 ) : Client {
 
     override val name = "Danbooru.Json"
     override val clientId = Clients.DanbooruJson
     override val baseUrl = "https://testbooru.donmai.us/posts.json"
+    val prodUrl = "https://danbooru.donmai.us/posts.json"
     override val referer = "https://danbooru.donmai.us"
     override val initPage = 1
 
@@ -24,9 +26,11 @@ class DanbooruJson(
 
         return runCatching {
 
+            val url = if (enableProdApi) prodUrl else baseUrl
+
             val tags = if (fetchQuery.tags.isEmpty()) "" else fetchQuery.tags.trim().split(" ").joinToString(separator = "+")
 
-            httpClient.get(baseUrl) {
+            httpClient.get(url) {
                 url {
                     encodedParameters.apply {
                         append("limit",fetchQuery.limit.toString())

@@ -39,5 +39,6 @@ class AppViewModel(
 
     fun setDevtools(value: Boolean) = set(PrefKeys.ENABLE_DEVTOOLS,value)
     fun setDemoMode(value: Boolean) = set(PrefKeys.DEMO_MODE,value)
+    fun setProdApi(value: Boolean) = set(PrefKeys.PROD_API,value)
 
 }

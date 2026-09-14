@@ -22,7 +22,8 @@ fun SettingsDevScreen(
     val settings by viewModel.devSettings.collectAsStateWithLifecycle(defaultDevSettings)
 
     val topShape = ListItemDefaults.segmentedShapes(0,3)
-    val bottomShape = ListItemDefaults.segmentedShapes(1,2)
+    val middleShape = ListItemDefaults.segmentedShapes(1,3)
+    val bottomShape = ListItemDefaults.segmentedShapes(2,3)
 
     val colors = ListItemDefaults.colors(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -51,9 +52,20 @@ fun SettingsDevScreen(
                     viewModel.setDemoMode(!settings.demoMode)
                 },
                 checked = settings.demoMode,
-                shapes = bottomShape,
+                shapes = middleShape,
                 colors = colors,
                 label = PrefKeys.DEMO_MODE.label,
+            )
+        }
+        item {
+            SettingsListSwitchItem(
+                onClick = {
+                    viewModel.setProdApi(!settings.prodApi)
+                },
+                checked = settings.prodApi,
+                shapes = bottomShape,
+                colors = colors,
+                label = PrefKeys.PROD_API.label,
             )
         }
 

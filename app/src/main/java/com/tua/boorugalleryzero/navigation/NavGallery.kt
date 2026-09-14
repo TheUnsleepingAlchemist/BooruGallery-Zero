@@ -58,7 +58,7 @@ fun NavGallery(
         }
     }
 
-    val client = DanbooruJson(httpClient)
+    val client = DanbooruJson(httpClient,gallerySettings.prodApi)
 
     val galleryViewModel = viewModel {
         GalleryViewModel(

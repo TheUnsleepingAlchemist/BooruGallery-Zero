@@ -4,17 +4,13 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.tua.boorugalleryzero.presentation.model.GridSize
 import com.tua.boorugalleryzero.presentation.model.ViewType
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 
 const val DATASTORE_NAME = "user_settings"
 
@@ -30,6 +26,7 @@ data class DataStoreItem<T>(
 object PrefKeys {
 
     val ENABLE_DEVTOOLS = DataStoreItem("Enable Devtools",booleanPreferencesKey("devtools"),false)
+    val PROD_API = DataStoreItem("Enable Prod API",booleanPreferencesKey("pro_api"),false)
     val DEMO_MODE = DataStoreItem("Demo mode",booleanPreferencesKey("demo_mode"),true)
     val VIEW_TYPE = DataStoreItem("Change view type",booleanPreferencesKey("view_type"),true)
     val HOME_SIZE_LANDSCAPE = DataStoreItem("Home grid size in landscape",intPreferencesKey("home_grid_size_landscape"),6)
@@ -60,6 +57,7 @@ class AppDataStore(val context: Context) {
     fun getGallerySetting(): Flow<GallerySettings> = context.dataStore.data.map {
         GallerySettings(
             demoMode = it[PrefKeys.DEMO_MODE.key] ?: PrefKeys.DEMO_MODE.defaultValue,
+            prodApi = it[PrefKeys.PROD_API.key] ?: PrefKeys.PROD_API.defaultValue,
             gridSize = GridSize(
                 portrait = it[PrefKeys.GALLERY_SIZE_PORTRAIT.key]?: PrefKeys.GALLERY_SIZE_PORTRAIT.defaultValue,
                 landscape = it[PrefKeys.GALLERY_SIZE_LANDSCAPE.key]?: PrefKeys.GALLERY_SIZE_LANDSCAPE.defaultValue,
@@ -76,6 +74,7 @@ class AppDataStore(val context: Context) {
         DevSettings(
             devtools = it[PrefKeys.ENABLE_DEVTOOLS.key] ?: PrefKeys.ENABLE_DEVTOOLS.defaultValue,
             demoMode = it[PrefKeys.DEMO_MODE.key] ?: PrefKeys.DEMO_MODE.defaultValue,
+            prodApi = it[PrefKeys.PROD_API.key] ?: PrefKeys.PROD_API.defaultValue,
         )
     }
 
@@ -89,6 +88,7 @@ data class HomeSettings(
 
 data class GallerySettings(
     val demoMode: Boolean,
+    val prodApi: Boolean,
     val gridSize: GridSize,
     val fetchQuantity: Int,
     val prefetchRange: Float,
@@ -100,6 +100,7 @@ data class GallerySettings(
 data class DevSettings(
     val devtools: Boolean,
     val demoMode: Boolean,
+    val prodApi: Boolean,
 )
 
 val defaultHomeSettings = HomeSettings(
@@ -110,6 +111,7 @@ val defaultHomeSettings = HomeSettings(
 
 val defaultGallerySettings = GallerySettings(
     demoMode = PrefKeys.DEMO_MODE.defaultValue,
+    prodApi = PrefKeys.PROD_API.defaultValue,
     gridSize = GridSize(PrefKeys.GALLERY_SIZE_PORTRAIT.defaultValue, PrefKeys.GALLERY_SIZE_LANDSCAPE.defaultValue),
     fetchQuantity = PrefKeys.FETCH_QUANTITY.defaultValue,
     prefetchRange = PrefKeys.PREFETCH_RANGE.defaultValue,
@@ -120,5 +122,6 @@ val defaultGallerySettings = GallerySettings(
 
 val defaultDevSettings = DevSettings(
     devtools = false,
-    demoMode = true
+    demoMode = true,
+    prodApi = false
 )
