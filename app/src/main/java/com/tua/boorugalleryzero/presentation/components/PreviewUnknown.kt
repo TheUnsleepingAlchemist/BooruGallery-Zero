@@ -31,7 +31,7 @@ fun PreviewUnknown(
         )
 
         Text(
-            "$fileExt?? in the gallery app?? how queer!!\nihe never seen such a thing- i must inquire about\nthis further with my supervisor post-haste!!",
+            "$fileExt?? in the gallery app?? how queer!!\nive never seen such a thing- i must inquire about\nthis further with my supervisor post-haste!!",
             minLines = 3,
             maxLines = 3,
             color = Color.Black,
