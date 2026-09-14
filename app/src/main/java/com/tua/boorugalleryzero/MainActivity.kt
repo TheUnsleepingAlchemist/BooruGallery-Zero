@@ -15,6 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tua.boorugalleryzero.data.persistent.defaultHomeSettings
@@ -24,6 +25,7 @@ import com.tua.boorugalleryzero.viewmodel.AppViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
@@ -35,6 +37,10 @@ class MainActivity : ComponentActivity() {
             val homeSettings by appViewModel.homeSetting.collectAsStateWithLifecycle(
                 defaultHomeSettings
             )
+
+            splashScreen.setKeepOnScreenCondition {
+                homeSettings.isLoading
+            }
 
             BooruGalleryZeroTheme {
                 Surface {

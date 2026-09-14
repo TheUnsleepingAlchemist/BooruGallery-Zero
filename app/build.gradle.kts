@@ -61,5 +61,6 @@ dependencies {
     implementation(libs.bundles.media3)
 
     implementation(libs.datastore)
+    implementation(libs.androidx.coreSplashScreen)
 
 }
