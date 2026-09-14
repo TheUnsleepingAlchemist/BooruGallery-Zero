@@ -70,6 +70,9 @@ fun NavRoot(
                 NavGallery(
                     gallerySettings = gallerySettings,
                     gifLoader = gifLoader,
+                    onBackClick = {
+                        backStack.removeLastOrNull()
+                    }
                 )
             }
             entry<RouteRoot.SettingsScreen> {

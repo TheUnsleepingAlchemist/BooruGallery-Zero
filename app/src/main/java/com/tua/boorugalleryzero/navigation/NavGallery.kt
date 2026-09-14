@@ -2,6 +2,9 @@ package com.tua.boorugalleryzero.navigation
 
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -34,7 +37,8 @@ import kotlinx.serialization.json.Json
 fun NavGallery(
     modifier: Modifier = Modifier,
     gallerySettings: GallerySettings,
-    gifLoader: () -> ImageLoader
+    gifLoader: () -> ImageLoader,
+    onBackClick: () -> Unit
 ) {
     val context = LocalContext.current.applicationContext
 
@@ -79,6 +83,21 @@ fun NavGallery(
         ProgressiveMediaSource.Factory(dataSourceFactory)
     }
 
+    val canGoBack by remember {
+        derivedStateOf {
+            backStack.size > 1
+        }
+    }
+
+    fun goBack() {
+        if (canGoBack) {
+            backStack.removeLastOrNull()
+        }
+        else {
+            onBackClick()
+        }
+    }
+
     NavDisplay(
         backStack = backStack,
         entryProvider = entryProvider {
@@ -87,6 +106,7 @@ fun NavGallery(
                     viewModel = galleryViewModel,
                     settings = gallerySettings,
                     headers = headers,
+                    onBackClick = { goBack() },
                     onClick = {
                         backStack.add(RouteGallery.Preview)
                     },

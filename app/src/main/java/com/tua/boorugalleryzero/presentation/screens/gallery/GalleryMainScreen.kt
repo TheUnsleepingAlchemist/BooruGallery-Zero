@@ -25,6 +25,7 @@ import com.tua.boorugalleryzero.presentation.components.BasicGridView
 import com.tua.boorugalleryzero.presentation.components.BottomSearch
 import com.tua.boorugalleryzero.presentation.components.GalleryItem
 import com.tua.boorugalleryzero.presentation.components.ScaffoldWithToolbar
+import com.tua.boorugalleryzero.presentation.components.TextIconButton
 import com.tua.boorugalleryzero.viewmodel.GalleryViewModel
 
 @Composable
@@ -33,6 +34,7 @@ fun GalleryMainScreen(
     settings: GallerySettings,
     modifier: Modifier = Modifier,
     headers: () -> NetworkHeaders,
+    onBackClick: () -> Unit,
     onClick: () -> Unit,
     onSearch: () -> Unit
 ) {
@@ -59,6 +61,12 @@ fun GalleryMainScreen(
             TopAppBar(
                 title = {
                     Text("Gallery")
+                },
+                navigationIcon = {
+                    TextIconButton(
+                        iconName = "arrow_back",
+                        onClick = onBackClick
+                    )
                 },
                 scrollBehavior = scrollBehavior
             )
