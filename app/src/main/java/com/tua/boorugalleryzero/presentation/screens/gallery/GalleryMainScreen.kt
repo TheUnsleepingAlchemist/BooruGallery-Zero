@@ -3,10 +3,14 @@ package com.tua.boorugalleryzero.presentation.screens.gallery
 
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
@@ -46,9 +50,19 @@ fun GalleryMainScreen(
         gridState.scrollToItem(initialIndex)
     }
 
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
     ScaffoldWithToolbar(
-        modifier = modifier,
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         isLoading = postPagingItems.loadState.refresh is LoadState.Loading,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text("Gallery")
+                },
+                scrollBehavior = scrollBehavior
+            )
+        },
         onRefresh = {},
         toolbarContent = {
             BottomSearch(

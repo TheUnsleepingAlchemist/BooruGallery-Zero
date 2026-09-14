@@ -1,9 +1,6 @@
 package com.tua.boorugalleryzero.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -18,19 +15,13 @@ import androidx.compose.foundation.lazy.layout.LazyLayoutCacheWindow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.IntOffset
 import com.tua.boorugalleryzero.presentation.model.GridSize
 import com.tua.boorugalleryzero.presentation.model.ViewType
 
@@ -39,6 +30,7 @@ import com.tua.boorugalleryzero.presentation.model.ViewType
 fun ScaffoldWithToolbar(
     modifier: Modifier = Modifier,
     isLoading: Boolean,
+    topBar: @Composable () -> Unit = {},
     onRefresh: () -> Unit,
     isToolbarVisible: Boolean = true,
     toolbarContent: @Composable RowScope.() -> Unit = {},
@@ -48,7 +40,8 @@ fun ScaffoldWithToolbar(
     val pullToRefreshState = rememberPullToRefreshState()
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
+        topBar = topBar,
         floatingActionButtonPosition = FabPosition.Center,
         floatingActionButton = {
             AnimatedVisibility(
@@ -108,10 +101,6 @@ fun ScaffoldWithToolbar(
         LazyLayoutCacheWindow(aheadFraction = 1f, behindFraction = 0.5f)
     )
 
-//    var viewType by rememberSaveable {
-//        mutableStateOf(viewType)
-//    }
-
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = topBar,
@@ -123,12 +112,6 @@ fun ScaffoldWithToolbar(
                         ViewType.Grid -> "grid_view"
                         ViewType.List -> "view_list"
                     },
-//                    onClick = {
-//                        viewType = when(viewType) {
-//                            ViewType.Grid -> ViewType.List
-//                            ViewType.List -> ViewType.Grid
-//                        }
-//                    }
                     onClick = toggleViewType
                 )
                 toolbarContent()
