@@ -7,20 +7,31 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
-import com.tua.boorugalleryzero.presentation.components.SettingsListItem
+import androidx.navigation3.runtime.NavKey
+import com.tua.boorugalleryzero.navigation.RouteSettings
+import com.tua.boorugalleryzero.presentation.components.SettingsItem
 import com.tua.boorugalleryzero.presentation.components.TextIconButton
 
 @Composable
-fun SettingsMainScreen(modifier: Modifier = Modifier) {
+fun SettingsMainScreen(
+    modifier: Modifier = Modifier,
+    onClick: (NavKey) -> Unit
+) {
+
+    val allSections = listOf(
+        SettingSection("Home","View type, Grid size","home", false,RouteSettings.Main),
+        SettingSection("Gallery","Demo mode, Autoplay","gallery_thumbnail", false,RouteSettings.Main),
+        SettingSection("Experimental","Demo mode, Autoplay","experiment", true,RouteSettings.Main),
+        SettingSection("About","Version 0.0.1","info", false,RouteSettings.Main),
+    )
+
+    val sections = allSections.filter { !it.hidden }
 
     val colors = ListItemDefaults.colors(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -46,17 +57,22 @@ fun SettingsMainScreen(modifier: Modifier = Modifier) {
             verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
 
-            itemsIndexed(List(10) { index -> index }) { i, item ->
+            itemsIndexed(
+                items = sections,
+                key = { _, item -> item.label }
+            ) { i, item ->
 
-                val shapes = ListItemDefaults.segmentedShapes(i,10)
+                val shapes = ListItemDefaults.segmentedShapes(i,sections.size)
 
-                SettingsListItem(
-                    onClick = {},
+                SettingsItem(
+                    onClick = {
+                        onClick(item.destination)
+                    },
                     shapes = shapes,
                     colors = colors,
-                    icon = "display_settings",
-                    title = "Item $item",
-                    description = "Short description of item $item",
+                    icon = item.iconName,
+                    title = item.label,
+                    description = item.description,
                 )
 
             }
@@ -66,3 +82,11 @@ fun SettingsMainScreen(modifier: Modifier = Modifier) {
     }
 
 }
+
+data class SettingSection(
+    val label: String,
+    val description: String,
+    val iconName: String,
+    val hidden: Boolean,
+    val destination: NavKey
+)
