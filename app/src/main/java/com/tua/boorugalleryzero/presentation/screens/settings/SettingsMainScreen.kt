@@ -28,8 +28,8 @@ fun SettingsMainScreen(
 
     val allSections = listOf(
         SettingSection("Home","View type, Grid size","home", false,RouteSettings.Home),
-        SettingSection("Gallery","Demo mode, Autoplay","gallery_thumbnail", false,RouteSettings.Gallery),
-        SettingSection("Experimental","Demo mode, Autoplay","experiment", !devtools,RouteSettings.Dev),
+        SettingSection("Gallery","Autoplay","gallery_thumbnail", false,RouteSettings.Gallery),
+        SettingSection("Experimental","Demo mode","experiment", !devtools,RouteSettings.Dev),
         SettingSection("About","Version 0.0.1","info", false,RouteSettings.About),
     )
 
