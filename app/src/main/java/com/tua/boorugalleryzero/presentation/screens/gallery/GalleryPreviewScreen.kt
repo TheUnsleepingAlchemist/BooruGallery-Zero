@@ -25,6 +25,7 @@ import coil3.ImageLoader
 import coil3.network.NetworkHeaders
 import com.tua.boorugalleryzero.data.persistent.GallerySettings
 import com.tua.boorugalleryzero.domain.FileType
+import com.tua.boorugalleryzero.domain.Post
 import com.tua.boorugalleryzero.domain.Rating
 import com.tua.boorugalleryzero.presentation.components.PreviewGif
 import com.tua.boorugalleryzero.presentation.components.PreviewImage
@@ -41,7 +42,8 @@ fun GalleryPreviewScreen(
     headers: () -> NetworkHeaders,
     gifLoader: () -> ImageLoader,
     mediaSourceFactory: () -> MediaSource.Factory,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onDetailsClick: (Post) -> Unit
 ) {
 
     val initialIndex by viewModel.initialIndex.collectAsStateWithLifecycle()
@@ -70,19 +72,24 @@ fun GalleryPreviewScreen(
         toolbarContent = {
             TextIconButton(
                 "favorite",
-                {}
+                {},
+                enabled = false
             )
             TextIconButton(
                 "link",
-                {}
+                {},
+                enabled = false
             )
             TextIconButton(
                 "download",
-                {}
+                {},
+                enabled = false
             )
             TextIconButton(
                 "info",
-                {}
+                {
+                    onDetailsClick(postPagingItems[settledPage]!!)
+                }
             )
         }
     ) {

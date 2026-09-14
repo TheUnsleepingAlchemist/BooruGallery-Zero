@@ -1,6 +1,7 @@
 package com.tua.boorugalleryzero.navigation
 
 import androidx.navigation3.runtime.NavKey
+import com.tua.boorugalleryzero.domain.Post
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -20,7 +21,7 @@ sealed interface RouteGallery : NavKey {
     @Serializable
     data object Preview: RouteGallery, NavKey
     @Serializable
-    data object Details: RouteGallery, NavKey
+    data class Details(val post: Post): RouteGallery, NavKey
 }
 
 @Serializable

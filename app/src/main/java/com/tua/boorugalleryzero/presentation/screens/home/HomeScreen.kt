@@ -54,7 +54,8 @@ fun HomeScreen(
         toolbarContent = {
             TextIconButton(
                 "add",
-                onAddClick
+                onAddClick,
+                enabled = false
             )
             TextIconButton(
                 "settings",

@@ -39,9 +39,11 @@ fun TextIconButton(
     iconSize: TextUnit = IconSize.Small,
     color: Color = Color.Unspecified,
     isFilled: Boolean = false,
+    enabled: Boolean = true
 ) {
     IconButton(
         onClick = onClick,
+        enabled = enabled,
         modifier = modifier
     ) {
         TextIcon(

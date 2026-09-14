@@ -121,11 +121,19 @@ fun NavGallery(
                     settings = gallerySettings,
                     headers = headers,
                     gifLoader = gifLoader,
-                    mediaSourceFactory = mediaSourceFactory
+                    mediaSourceFactory = mediaSourceFactory,
+                    onDetailsClick = { post ->
+                        backStack.add(RouteGallery.Details(post))
+                    }
                 )
             }
-            entry<RouteGallery.Details> {
-                GalleryDetailsScreen()
+            entry<RouteGallery.Details> { key ->
+                GalleryDetailsScreen(
+                    post = key.post,
+                    onBackClick = {
+                        backStack.removeLastOrNull()
+                    }
+                )
             }
         }
     )

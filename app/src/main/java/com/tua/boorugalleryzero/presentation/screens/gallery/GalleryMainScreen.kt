@@ -71,7 +71,9 @@ fun GalleryMainScreen(
                 scrollBehavior = scrollBehavior
             )
         },
-        onRefresh = {},
+        onRefresh = {
+            postPagingItems.refresh()
+        },
         toolbarContent = {
             BottomSearch(
                 state = textFieldState,
