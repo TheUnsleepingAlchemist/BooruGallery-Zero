@@ -35,9 +35,10 @@ fun PreviewUnknown(
             minLines = 3,
             maxLines = 3,
             color = Color.Black,
-            autoSize = TextAutoSize.StepBased(minFontSize = 5.sp, maxFontSize = 20.sp),
+            autoSize = TextAutoSize.StepBased(minFontSize = 3.sp, maxFontSize = 20.sp),
+            lineHeight = 12.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(0.7f).align(BiasAlignment(0.9f,-0.75f))
+            modifier = Modifier.fillMaxWidth(0.6f).align(BiasAlignment(0.9f,-0.75f))
         )
     }
 }
