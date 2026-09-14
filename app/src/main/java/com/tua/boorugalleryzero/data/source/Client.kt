@@ -10,6 +10,6 @@ interface Client {
     val referer: String
     val initPage: Int
 
-    suspend fun fetchPosts(page:Int = initPage) : Result<List<Post>>
+    suspend fun fetchPosts(page:Int = initPage,fetchQuantity:Int = 20) : Result<List<Post>>
 
 }

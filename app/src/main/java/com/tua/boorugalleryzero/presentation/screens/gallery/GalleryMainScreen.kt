@@ -15,6 +15,8 @@ import androidx.paging.compose.itemKey
 import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.ImageRequest
+import com.tua.boorugalleryzero.data.persistent.GallerySettings
+import com.tua.boorugalleryzero.domain.Rating
 import com.tua.boorugalleryzero.presentation.components.BasicGridView
 import com.tua.boorugalleryzero.presentation.components.BottomSearch
 import com.tua.boorugalleryzero.presentation.components.GalleryItem
@@ -24,6 +26,7 @@ import com.tua.boorugalleryzero.viewmodel.GalleryViewModel
 @Composable
 fun GalleryMainScreen(
     viewModel: GalleryViewModel,
+    settings: GallerySettings,
     modifier: Modifier = Modifier,
     headers: () -> NetworkHeaders,
     onClick: () -> Unit,
@@ -56,7 +59,8 @@ fun GalleryMainScreen(
     ) {
 
         BasicGridView(
-            state = gridState
+            state = gridState,
+            gridSize = settings.gridSize
         ) {
 
             items(
@@ -66,19 +70,29 @@ fun GalleryMainScreen(
                 val post = postPagingItems[index]
                 if (post != null) {
 
-                    val model = ImageRequest
-                        .Builder(LocalContext.current)
-                        .data(post.previewUrl)
-                        .httpHeaders(headers())
-                        .build()
+                    if (settings.demoMode && post.rating != Rating.General) {
+                        GalleryItem(
+                            onClick = {
+                                viewModel.setInitialIndex(index)
+                                onClick()
+                            }
+                        )
+                    }
+                    else {
+                        val model = ImageRequest
+                            .Builder(LocalContext.current)
+                            .data(post.previewUrl)
+                            .httpHeaders(headers())
+                            .build()
 
-                    GalleryItem(
-                        imageModel = model,
-                        onClick = {
-                            viewModel.setInitialIndex(index)
-                            onClick()
-                        }
-                    )
+                        GalleryItem(
+                            imageModel = model,
+                            onClick = {
+                                viewModel.setInitialIndex(index)
+                                onClick()
+                            }
+                        )
+                    }
 
                 }
 

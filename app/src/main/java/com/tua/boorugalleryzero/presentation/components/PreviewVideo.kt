@@ -40,7 +40,10 @@ fun PreviewVideo(
     url: String,
     mediaSourceFactory: () -> MediaSource.Factory,
     onClick: () -> Unit,
-    canPlay: Boolean
+    canPlay: Boolean,
+    autoplay: Boolean,
+    loop: Boolean,
+    mute: Boolean
 ) {
     val context = LocalContext.current.applicationContext
 
@@ -64,8 +67,12 @@ fun PreviewVideo(
             .setLoadControl(loadControl)
             .build()
             .apply {
-                volume = 0.05f
-                repeatMode = ExoPlayer.REPEAT_MODE_ALL
+                if (mute) {
+                    mute()
+                }
+                if (loop) {
+                    repeatMode = ExoPlayer.REPEAT_MODE_ALL
+                }
 
                 setMediaItem(mediaItem,false)
                 prepare()
@@ -73,7 +80,7 @@ fun PreviewVideo(
     }
 
     RetainedEffect(canPlay) {
-        player.playWhenReady = canPlay
+        player.playWhenReady = canPlay && autoplay
         onRetire { player.playWhenReady = false }
     }
 

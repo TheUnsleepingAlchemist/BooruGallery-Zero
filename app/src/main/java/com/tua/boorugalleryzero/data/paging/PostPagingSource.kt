@@ -7,7 +7,8 @@ import com.tua.boorugalleryzero.data.source.Client
 import com.tua.boorugalleryzero.domain.Post
 
 class PostPagingSource(
-    private val client: Client
+    private val client: Client,
+    private val fetchQuantity:Int
 ) : PagingSource<Int, Post>() {
     override fun getRefreshKey(state: PagingState<Int, Post>): Int {
         return client.initPage
@@ -18,7 +19,7 @@ class PostPagingSource(
         try {
             val key = params.key ?: client.initPage
 
-            val postRes = client.fetchPosts(key).getOrNull()!!
+            val postRes = client.fetchPosts(key, fetchQuantity).getOrNull()!!
 
             val reachedEnd = postRes.isEmpty()
 

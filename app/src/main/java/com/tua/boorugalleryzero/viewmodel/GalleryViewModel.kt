@@ -14,16 +14,18 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class GalleryViewModel(
-    val client: Client
+    val client: Client,
+    val fetchQuantity:Int
 ) : ViewModel() {
 
     val postPagingSource: Flow<PagingData<Post>> = Pager(
         config = PagingConfig(
-            pageSize = 20
+            pageSize = fetchQuantity
         ),
         pagingSourceFactory = {
             PostPagingSource(
-                client = client
+                client = client,
+                fetchQuantity = fetchQuantity
             )
         }
     ).flow.cachedIn(viewModelScope)

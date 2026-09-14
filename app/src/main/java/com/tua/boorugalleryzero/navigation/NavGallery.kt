@@ -14,6 +14,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import coil3.ImageLoader
 import coil3.network.NetworkHeaders
+import com.tua.boorugalleryzero.data.persistent.GallerySettings
 import com.tua.boorugalleryzero.data.source.DanbooruJson
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryDetailsScreen
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryMainScreen
@@ -32,6 +33,7 @@ import kotlinx.serialization.json.Json
 @Composable
 fun NavGallery(
     modifier: Modifier = Modifier,
+    gallerySettings: GallerySettings,
     gifLoader: () -> ImageLoader
 ) {
     val context = LocalContext.current.applicationContext
@@ -53,7 +55,12 @@ fun NavGallery(
 
     val client = DanbooruJson(httpClient)
 
-    val galleryViewModel = viewModel { GalleryViewModel(client) }
+    val galleryViewModel = viewModel {
+        GalleryViewModel(
+            client = client,
+            fetchQuantity = gallerySettings.fetchQuantity
+        )
+    }
 
     val headers = {
         NetworkHeaders
@@ -78,6 +85,7 @@ fun NavGallery(
             entry<RouteGallery.Main> {
                 GalleryMainScreen(
                     viewModel = galleryViewModel,
+                    settings = gallerySettings,
                     headers = headers,
                     onClick = {
                         backStack.add(RouteGallery.Preview)
@@ -88,6 +96,7 @@ fun NavGallery(
             entry<RouteGallery.Preview> {
                 GalleryPreviewScreen(
                     viewModel = galleryViewModel,
+                    settings = gallerySettings,
                     headers = headers,
                     gifLoader = gifLoader,
                     mediaSourceFactory = mediaSourceFactory

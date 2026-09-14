@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.IntOffset
+import com.tua.boorugalleryzero.presentation.model.GridSize
 import com.tua.boorugalleryzero.presentation.model.ViewType
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -89,8 +90,11 @@ fun ScaffoldWithToolbar(
 @Composable
 fun ScaffoldWithToolbar(
     modifier: Modifier = Modifier,
-    isLoading: Boolean,
+    isLoading: Boolean = false,
     topBar: @Composable () -> Unit = {},
+    viewType: ViewType,
+    toggleViewType: () -> Unit,
+    gridSize: GridSize,
     onRefresh: () -> Unit,
     toolbarContent: @Composable RowScope.() -> Unit = {},
     gridView: LazyGridScope.() -> Unit,
@@ -104,9 +108,9 @@ fun ScaffoldWithToolbar(
         LazyLayoutCacheWindow(aheadFraction = 1f, behindFraction = 0.5f)
     )
 
-    var viewType by rememberSaveable {
-        mutableStateOf(ViewType.Grid)
-    }
+//    var viewType by rememberSaveable {
+//        mutableStateOf(viewType)
+//    }
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -119,12 +123,13 @@ fun ScaffoldWithToolbar(
                         ViewType.Grid -> "grid_view"
                         ViewType.List -> "view_list"
                     },
-                    onClick = {
-                        viewType = when(viewType) {
-                            ViewType.Grid -> ViewType.List
-                            ViewType.List -> ViewType.Grid
-                        }
-                    }
+//                    onClick = {
+//                        viewType = when(viewType) {
+//                            ViewType.Grid -> ViewType.List
+//                            ViewType.List -> ViewType.Grid
+//                        }
+//                    }
+                    onClick = toggleViewType
                 )
                 toolbarContent()
             }
@@ -149,6 +154,7 @@ fun ScaffoldWithToolbar(
                 ViewType.Grid -> {
                     BasicGridView(
                         state = gridState,
+                        gridSize = gridSize,
                         content = gridView
                     )
                 }

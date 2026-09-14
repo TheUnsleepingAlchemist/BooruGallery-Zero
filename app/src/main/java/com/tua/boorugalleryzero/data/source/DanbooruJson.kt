@@ -19,13 +19,13 @@ class DanbooruJson(
     override val referer = "https://danbooru.donmai.us"
     override val initPage = 1
 
-    override suspend fun fetchPosts(page:Int): Result<List<Post>> {
+    override suspend fun fetchPosts(page:Int,fetchQuantity:Int): Result<List<Post>> {
 
         return runCatching {
             httpClient.get(baseUrl) {
                 url {
                     encodedParameters.apply {
-                        append("limit","20")
+                        append("limit",fetchQuantity.toString())
                         append("tags", "")
                         append("page",page.toString())
                     }
