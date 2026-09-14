@@ -75,7 +75,11 @@ fun GalleryMainScreen(
         toolbarContent = {
             BottomSearch(
                 state = textFieldState,
-                onSearch = onSearch
+                onSearch = {
+                    viewModel.setTags(textFieldState.text.toString())
+                    postPagingItems.refresh()
+//                    onSearch()
+                }
             )
         },
     ) {

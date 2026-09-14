@@ -17,6 +17,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import coil3.ImageLoader
 import coil3.network.NetworkHeaders
+import com.tua.boorugalleryzero.data.model.FetchQuery
 import com.tua.boorugalleryzero.data.persistent.GallerySettings
 import com.tua.boorugalleryzero.data.source.DanbooruJson
 import com.tua.boorugalleryzero.presentation.screens.gallery.GalleryDetailsScreen
@@ -62,7 +63,8 @@ fun NavGallery(
     val galleryViewModel = viewModel {
         GalleryViewModel(
             client = client,
-            fetchQuantity = gallerySettings.fetchQuantity
+            fetchQuery = FetchQuery("",client.initPage,gallerySettings.fetchQuantity)
+//            fetchQuery = gallerySettings.fetchQuantity
         )
     }
 

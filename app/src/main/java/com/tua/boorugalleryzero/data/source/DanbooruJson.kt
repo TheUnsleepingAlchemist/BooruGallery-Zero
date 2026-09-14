@@ -1,5 +1,6 @@
 package com.tua.boorugalleryzero.data.source
 
+import com.tua.boorugalleryzero.data.model.FetchQuery
 import com.tua.boorugalleryzero.domain.FileType
 import com.tua.boorugalleryzero.domain.Post
 import com.tua.boorugalleryzero.domain.Rating
@@ -19,15 +20,18 @@ class DanbooruJson(
     override val referer = "https://danbooru.donmai.us"
     override val initPage = 1
 
-    override suspend fun fetchPosts(page:Int,fetchQuantity:Int): Result<List<Post>> {
+    override suspend fun fetchPosts(fetchQuery: FetchQuery): Result<List<Post>> {
 
         return runCatching {
+
+            val tags = if (fetchQuery.tags.isEmpty()) "" else fetchQuery.tags.trim().split(" ").joinToString(separator = "+")
+
             httpClient.get(baseUrl) {
                 url {
                     encodedParameters.apply {
-                        append("limit",fetchQuantity.toString())
-                        append("tags", "")
-                        append("page",page.toString())
+                        append("limit",fetchQuery.limit.toString())
+                        append("tags", tags)
+                        append("page",fetchQuery.page.toString())
                     }
                 }
             }.body<List<RemotePost>>().map { it.toDomainPost() }

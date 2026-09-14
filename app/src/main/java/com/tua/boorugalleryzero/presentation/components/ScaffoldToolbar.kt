@@ -1,6 +1,7 @@
 package com.tua.boorugalleryzero.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.material3.FloatingToolbarDefaults
 import androidx.compose.material3.HorizontalFloatingToolbar
@@ -16,7 +17,7 @@ fun ScaffoldToolbar(
     val vibrantColors = FloatingToolbarDefaults.vibrantFloatingToolbarColors()
 
     HorizontalFloatingToolbar(
-        modifier = modifier.imePadding(),
+        modifier = modifier.imePadding().heightIn(max = FloatingToolbarDefaults.ContainerSize),
         expanded = expanded,
         colors = vibrantColors,
         content = content

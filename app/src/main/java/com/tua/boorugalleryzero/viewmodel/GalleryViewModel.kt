@@ -6,26 +6,37 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.tua.boorugalleryzero.data.model.FetchQuery
 import com.tua.boorugalleryzero.data.paging.PostPagingSource
 import com.tua.boorugalleryzero.data.source.Client
 import com.tua.boorugalleryzero.domain.Post
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class GalleryViewModel(
     val client: Client,
-    val fetchQuantity:Int
+    val fetchQuery: FetchQuery
 ) : ViewModel() {
+
+    private val _tags = MutableStateFlow("")
+
+    fun setTags(value: String) {
+        _tags.update {
+            value
+        }
+    }
 
     val postPagingSource: Flow<PagingData<Post>> = Pager(
         config = PagingConfig(
-            pageSize = fetchQuantity
+            pageSize = fetchQuery.limit
         ),
         pagingSourceFactory = {
             PostPagingSource(
                 client = client,
-                fetchQuantity = fetchQuantity
+                fetchQuery = fetchQuery,
+                tags = _tags.value
             )
         }
     ).flow.cachedIn(viewModelScope)
